@@ -1,0 +1,16 @@
+* {
+  margin: 0;
+  padding: 5px;
+}
+
+body {
+  background-color: #f5f6fa;
+}
+
+.InfoBoxRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2em;
+  align-items: center;
+}
