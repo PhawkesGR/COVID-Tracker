@@ -1,11 +1,11 @@
 import React from 'react'
 import styles from './Header.scss'
 
-function Header({ countries }) {
+function Header({ countries, onCountryChange }) {
     return (
         <div className='Header'>
             <h1>COVID Tracker</h1>
-            <select>
+            <select onChange={onCountryChange}>
                 <option value='Worldwide'>Worldwide</option>
                 {countries.map(c => {
                     return (
