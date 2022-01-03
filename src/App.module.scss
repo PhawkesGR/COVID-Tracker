@@ -7,10 +7,23 @@ body {
   background-color: #f5f6fa;
 }
 
+.App {
+  display: flex;
+  flex-direction: row;
+}
+
 .InfoBoxRow {
   display: flex;
   flex-direction: row;
   justify-content: center;
   gap: 2em;
   align-items: center;
+}
+
+.MainContent {
+  flex: 75%;
+}
+
+.RightSideBar {
+  flex: 25%;
 }

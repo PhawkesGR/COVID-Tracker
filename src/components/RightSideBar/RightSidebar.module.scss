@@ -1,0 +1,57 @@
+.card {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+    height: 400px;
+    padding: 10px;
+
+    h1 {
+        font-weight: 400;
+        font-size: 1.2em;
+    }
+}
+
+.countryRow {
+    display: flex;
+    justify-content: center;
+    overflow: scroll;
+    background-color: white;
+    height: 400px;
+    width: 100%;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    tr {
+        display: flex;
+        justify-content: space-between;
+        line-height: 3px;
+    }
+      
+    td {
+        padding: 0.5rem;
+        border: none;
+    }
+      
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+
+    img {
+        height: 0.8em;
+        cursor: pointer;
+    }
+}
