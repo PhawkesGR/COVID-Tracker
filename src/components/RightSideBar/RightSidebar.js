@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useRef } from 'react'
+import { React, useState, useEffect } from 'react'
 import { formatNumber, sort } from '../../utils.js'
 import styles from './RightSidebar.module.scss'
 import previous from '../../assets/left-arrow.png'

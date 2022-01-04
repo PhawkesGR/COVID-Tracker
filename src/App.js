@@ -3,6 +3,7 @@ import styles from './App.module.scss';
 import InfoBox from './components/InfoBox/InfoBox';
 import Header from './components/Header/Header';
 import RightSidebar from './components/RightSideBar/RightSidebar';
+import Map from './components/Map/Map'
 import { totalVaccinations } from './utils.js'
 
 function App() {
@@ -60,6 +61,9 @@ function App() {
           <InfoBox title='COVID Cases' value={countryInfo.todayCases} subValue={countryInfo.cases}/>
           <InfoBox title='Recovered' value={countryInfo.todayRecovered} subValue={countryInfo.recovered}/>
           <InfoBox title='Deaths' value={countryInfo.todayDeaths} subValue={countryInfo.deaths}/>
+        </div>
+        <div className='styles.Map'>
+          <Map />
         </div>
       </div>
       <div className={styles.RightSideBar}>
