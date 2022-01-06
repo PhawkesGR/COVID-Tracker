@@ -1,19 +1,34 @@
 import styles from './Map.module.scss'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { MapContainer, TileLayer, Popup, CircleMarker } from 'react-leaflet'
+import { handleCircleRadius, sort } from '../../utils.js'
 
-function Map() {
+function Map({ lat, long, zoom, circles  }) {
+    const sortedCases = sort(circles.map(c => c.cases))
+    const highestCases = sortedCases[0]
     return (
-        <div className={styles.card}>
-            <MapContainer className={styles.MapContainer} center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+        <div className={styles.card} key={lat}>
+            <MapContainer className={styles.MapContainer} center={[lat, long]} zoom={zoom} scrollWheelZoom={false}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <Marker position={[51.505, -0.09]}>
-                    <Popup>
-                    A pretty CSS3 popup. <br /> Easily customizable.
-                    </Popup>
-                </Marker>
+                {
+                    circles.map(info => {
+                        return (
+                            <CircleMarker center={[info.lat, info.long]} pathOptions={{color: 'red'}} radius={handleCircleRadius(info.cases, highestCases)} key={`${info.country}`}>
+                                <Popup>
+                                    <div className={styles.infoContainer}>
+                                        <div><img src={info.flag} alt={info.country} /></div>
+                                        <div><h1 className={styles.PopupTitle}>{info.country}</h1></div>
+                                        <div><h2 className={styles.PopupSubtitle}>Cases: {info.cases}</h2></div>
+                                        <div><h2 className={styles.PopupSubtitle}>Recovered: {info.recovered}</h2></div>
+                                        <div><h2 className={styles.PopupSubtitle}>Deaths: {info.deaths}</h2></div>
+                                    </div>
+                                </Popup>
+                            </CircleMarker>
+                        )
+                    })
+                }
             </MapContainer>
         </div>
     )

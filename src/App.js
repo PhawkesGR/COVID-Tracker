@@ -12,7 +12,11 @@ function App() {
   // const [countries, setCountries] = useState([])
   const [country, setCountryInput] = useState([])
   const [vaccinesPerCountry, setVaccinesPerCountry] = useState([])
+  const [mapZoom, setMapZoom] = useState(3)
+  const [coordinates, setCoordinates] = useState({lat: 34.80746, long: -40.4796})
+  const [circles, setCircles] = useState([])
 
+  // get Worldwide Data
   useEffect(() => {
     fetch("https://disease.sh/v3/covid-19/all")
     .then(res => res.json())
@@ -22,15 +26,28 @@ function App() {
     })
   }, []);
 
+  // get Data for all countries
   useEffect(() => {
     fetch("https://disease.sh/v3/covid-19/countries")
     .then(res => res.json())
     .then(response => {
       console.log(response)
       setCountryInput(response)
+      setCircles(response.map(c => {
+        return {
+          lat: c.countryInfo.lat,
+          long: c.countryInfo.long,
+          cases: c.todayCases,
+          recovered: c.todayRecovered,
+          deaths: c.todayDeaths,
+          country: c.country,
+          flag: c.countryInfo.flag
+        }
+      }))
     })
   }, [])
 
+  // get total vaccine data
   useEffect(() => {
     fetch('https://disease.sh/v3/covid-19/vaccine/coverage/countries?lastdays=1')
     .then(res => res.json())
@@ -49,7 +66,15 @@ function App() {
     await fetch(fetchURL)
     .then(res => res.json())
     .then(response => {
+      console.log(response)
       setCountryInfo(response)
+      if (countryCode === 'Worldwide') {
+        setCoordinates({lat: 34.80746, long: -40.4796})
+        setMapZoom(3)
+      } else {
+        setCoordinates({lat: response.countryInfo.lat, long: response.countryInfo.long})
+        setMapZoom(5)
+      }
     })
   }
 
@@ -63,7 +88,7 @@ function App() {
           <InfoBox title='Deaths' value={countryInfo.todayDeaths} subValue={countryInfo.deaths}/>
         </div>
         <div className='styles.Map'>
-          <Map />
+          <Map zoom={mapZoom} lat={coordinates.lat} long={coordinates.long} circles={circles}/>
         </div>
       </div>
       <div className={styles.RightSideBar}>
