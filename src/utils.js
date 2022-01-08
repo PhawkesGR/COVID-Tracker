@@ -24,15 +24,20 @@ const sort = (array, order = 'desc') => {
     }
 }
 
-// returns the radius for the circle in the map. Larger circles represent more daily cases
-// highest cases get a radius of 80. Lowest cases get a radius of 10.
-// the rest of the cases get a radius based on their percentage difference with the highest cases
-const handleCircleRadius = (cases, highestCases) => {
-    if (cases <= 0) return 10
-    const highestRadius = 40
-    const percentageDiff = percentageDifference(highestCases, cases).toString().length
-    return percentageDiff.toString().length <= 2 ? highestRadius - parseInt(percentageDiff.toString().slice(0, 1))
-    : highestRadius - parseInt(percentageDiff.toString().slice(0, 2))
+// returns the radius for the circle in the map. Larger circles represent more daily cases/recoveries/deaths
+// highest daily cases/recoveries/deaths get a radius of 80. Lowest daily cases/recoveries/deaths get a radius of 10.
+// the rest get a radius based on their percentage difference with the highest
+const handleCircleRadius = (value, highestValue) => {
+    const highestRadius = 60
+    if (value === highestRadius) return 60
+    if (value <= 0) return 10
+    const percentageDiff = percentageDifference(highestValue, value)
+    if (percentageDiff <= 25) return 55
+    if (percentageDiff <= 50) return 50
+    if (percentageDiff <= 100) return 40
+    if (percentageDiff <= 150) return 25
+    return 20
+
 }
 
 // calculates the percentage difference between 2 numbers

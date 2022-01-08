@@ -1,14 +1,35 @@
 import styles from './Map.module.scss'
+import { useEffect } from 'react'
 import { MapContainer, TileLayer, Popup, CircleMarker } from 'react-leaflet'
 import { handleCircleRadius, sort } from '../../utils.js'
 
 function Map({ lat, long, zoom, circles, metric  }) {
-    const sortedCases = sort(circles.map(c => c.cases))
-    const highestCases = sortedCases[0]
-
-    const circleColor = metric === 'cases' ? '#5763e5'
-        : metric === 'recovered' ? '#49ef49'
-        : '#d32626'
+    let circleColor
+    let sortedValues
+    if (metric === 'cases') {
+        circleColor = '#5763e5'
+        sortedValues = sort(circles.map(c => {
+            return {
+                value: c.cases
+            }
+        }))
+        console.log(sortedValues)
+    } else if (metric === 'recovered') {
+        circleColor = '#49ef49'
+        sortedValues = sort(circles.map(c => {
+            return {
+                value: c.recovered
+            }
+        }))
+    } else {
+        circleColor = '#d32626'
+        sortedValues = sort(circles.map(c => {
+            return {
+                value: c.deaths
+            }
+        }))
+    }
+    const highestValue = sortedValues[0].value
     return (
         <div className={styles.card} key={lat}>
             <MapContainer className={styles.MapContainer} center={[lat, long]} zoom={zoom} scrollWheelZoom={true}>
@@ -19,7 +40,7 @@ function Map({ lat, long, zoom, circles, metric  }) {
                 {
                     circles.map(info => {
                         return (
-                            <CircleMarker center={[info.lat, info.long]} pathOptions={{color: circleColor}} radius={handleCircleRadius(info.cases, highestCases)} key={`${info.country}`}>
+                            <CircleMarker center={[info.lat, info.long]} pathOptions={{color: circleColor}} radius={handleCircleRadius(info[metric], highestValue)} key={`${info.country}`}>
                                 <Popup>
                                     <div className={styles.infoContainer}>
                                         <div><img src={info.flag} alt={info.country} /></div>
