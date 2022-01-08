@@ -18,7 +18,26 @@
     }
 
     .cardTitle {
+        font-size: 1.3em;
+    }
+
+    .cardValue {
+        font-size: 1.7em;
         font-weight: bold;
+
+        &.cases {
+            color: #5763e5
+        }
+        &.recovered {
+            color: #49ef49;
+        }
+        &.deaths {
+            color: #d32626;
+        }
+    }
+
+    .cardSubvalue {
+        font-size: 0.9em;
     }
 
     &.cases {

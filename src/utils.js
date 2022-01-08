@@ -24,20 +24,14 @@ const sort = (array, order = 'desc') => {
     }
 }
 
-// returns the radius for the circle in the map. Larger circles represent more daily cases/recoveries/deaths
-// highest daily cases/recoveries/deaths get a radius of 80. Lowest daily cases/recoveries/deaths get a radius of 10.
-// the rest get a radius based on their percentage difference with the highest
-const handleCircleRadius = (value, highestValue) => {
-    const highestRadius = 60
-    if (value === highestRadius) return 60
+const handleCircleRadius = (value) => {
     if (value <= 0) return 10
-    const percentageDiff = percentageDifference(highestValue, value)
-    if (percentageDiff <= 25) return 55
-    if (percentageDiff <= 50) return 50
-    if (percentageDiff <= 100) return 40
-    if (percentageDiff <= 150) return 25
-    return 20
-
+    if (value <= 1000) return 15
+    if (value <= 5000) return 20
+    if (value <= 15000) return 30
+    if (value <= 45000) return 40
+    if (value <= 75000) return 50
+    return 60
 }
 
 // calculates the percentage difference between 2 numbers

@@ -90,6 +90,7 @@ function App() {
             title='COVID Cases'
             value={countryInfo.todayCases}
             subValue={countryInfo.cases}
+            metric='cases'
           />
           <InfoBox
             onClick={() => setSelectedMetric('recovered')}
@@ -97,6 +98,7 @@ function App() {
             title='Recovered'
             value={countryInfo.todayRecovered}
             subValue={countryInfo.recovered}
+            metric='recovered'
           />
           <InfoBox
             onClick={() => setSelectedMetric('deaths')}
@@ -104,6 +106,7 @@ function App() {
             title='Deaths'
             value={countryInfo.todayDeaths}
             subValue={countryInfo.deaths}
+            metric='deaths'
           />
         </div>
         <div className='styles.Map'>
