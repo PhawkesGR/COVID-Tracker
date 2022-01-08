@@ -1,16 +1,26 @@
 import styles from './Infobox.module.scss'
+import { beautifyNumber } from '../../utils'
 
-export default function InfoBox(props) {
+export default function InfoBox({ title, subValue, value, active, ...props }) {
+    const activeInfoBoxClass = () => {
+        if (active) {
+            return title === 'COVID Cases' ? styles.cases
+                : title === 'Recovered' ? styles.recovered
+                : styles.deaths
+        } else {
+            return ''
+        }
+    }
     return (
-        <div className={styles.card}>
+        <div className={`${styles.card} ${activeInfoBoxClass()}`} onClick={props.onClick}>
             <div className={styles.cardTitle}>
-                {props.title}
+                {title}
             </div>
             <div className={styles.cardValue}>
-                + {props.value}
+                + {beautifyNumber(value)}
             </div>
             <div className={styles.cardSubvalue}>
-                {props.subValue} Total {props.title}
+                {beautifyNumber(subValue)} Total {title}
             </div>
         </div>
     )

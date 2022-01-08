@@ -31,7 +31,6 @@ const handleCircleRadius = (cases, highestCases) => {
     if (cases <= 0) return 10
     const highestRadius = 40
     const percentageDiff = percentageDifference(highestCases, cases).toString().length
-    console.log(percentageDifference(highestCases, cases))
     return percentageDiff.toString().length <= 2 ? highestRadius - parseInt(percentageDiff.toString().slice(0, 1))
     : highestRadius - parseInt(percentageDiff.toString().slice(0, 2))
 }
@@ -44,9 +43,16 @@ const percentageDifference = (a, b) => {
     return (absolute / avg) * 100 
 }
 
+// takes a number and returns a beautified one (eg, 100,000 --> 100k)
+const beautifyNumber = (number) => {
+    const formatter = Intl.NumberFormat('en', { notation: 'compact'})
+    return formatter.format(number).toLowerCase()
+}
+
 export {
     totalVaccinations,
     formatNumber,
     sort,
-    handleCircleRadius
+    handleCircleRadius,
+    beautifyNumber
 }

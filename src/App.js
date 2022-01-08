@@ -15,6 +15,7 @@ function App() {
   const [mapZoom, setMapZoom] = useState(3)
   const [coordinates, setCoordinates] = useState({lat: 34.80746, long: -40.4796})
   const [circles, setCircles] = useState([])
+  const [selectedMetric, setSelectedMetric] = useState('cases')
 
   // get Worldwide Data
   useEffect(() => {
@@ -83,12 +84,30 @@ function App() {
       <div className={styles.MainContent}>
         <Header onCountryChange={onCountryChange} countries={country.map(c => c.country)} />
         <div className={styles.InfoBoxRow}>
-          <InfoBox title='COVID Cases' value={countryInfo.todayCases} subValue={countryInfo.cases}/>
-          <InfoBox title='Recovered' value={countryInfo.todayRecovered} subValue={countryInfo.recovered}/>
-          <InfoBox title='Deaths' value={countryInfo.todayDeaths} subValue={countryInfo.deaths}/>
+          <InfoBox
+            onClick={() => setSelectedMetric('cases')}
+            active={selectedMetric === 'cases'}
+            title='COVID Cases'
+            value={countryInfo.todayCases}
+            subValue={countryInfo.cases}
+          />
+          <InfoBox
+            onClick={() => setSelectedMetric('recovered')}
+            active={selectedMetric === 'recovered'}
+            title='Recovered'
+            value={countryInfo.todayRecovered}
+            subValue={countryInfo.recovered}
+          />
+          <InfoBox
+            onClick={() => setSelectedMetric('deaths')}
+            active={selectedMetric === 'deaths'}
+            title='Deaths'
+            value={countryInfo.todayDeaths}
+            subValue={countryInfo.deaths}
+          />
         </div>
         <div className='styles.Map'>
-          <Map zoom={mapZoom} lat={coordinates.lat} long={coordinates.long} circles={circles}/>
+          <Map zoom={mapZoom} lat={coordinates.lat} long={coordinates.long} circles={circles} metric={selectedMetric}/>
         </div>
       </div>
       <div className={styles.RightSideBar}>
