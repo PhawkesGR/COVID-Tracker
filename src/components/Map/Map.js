@@ -5,11 +5,22 @@ import { handleCircleRadius, sort } from '../../utils.js'
 
 function Map({ lat, long, zoom, circles, metric }) {
     const [circleColor, setCircleColor] = useState('')
+    const [highestValue, setHighestValue] = useState(0)
     useEffect(() => {
         setCircleColor(metric === 'cases' ? '#5763e5'
             : metric === 'recovered' ? '#49ef49'
             : '#d32626')
     }, [metric])
+
+    useEffect(() => {
+        const highest = sort(circles.map(c => {
+            return {
+                value: c[metric]
+            }
+        }))[0]
+        setHighestValue(highest && highest.value !== undefined ? highest.value : 0)
+    }, [circles, metric])
+
     return (
         <div className={styles.card} key={lat}>
             <MapContainer className={styles.MapContainer} center={[lat, long]} zoom={zoom} scrollWheelZoom={true}>
@@ -20,7 +31,7 @@ function Map({ lat, long, zoom, circles, metric }) {
                 {
                     circles.map(info => {
                         return (
-                            <CircleMarker center={[info.lat, info.long]} pathOptions={{color: circleColor}} radius={handleCircleRadius(info[metric])} key={`${info.country}`}>
+                            <CircleMarker center={[info.lat, info.long]} pathOptions={{color: circleColor}} radius={handleCircleRadius(info[metric], highestValue)} key={`${info.country}`}>
                                 <Popup>
                                     <div className={styles.infoContainer}>
                                         <div><img src={info.flag} alt={info.country} /></div>

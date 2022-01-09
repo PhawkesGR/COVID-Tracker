@@ -24,14 +24,16 @@ const sort = (array, order = 'desc') => {
     }
 }
 
-const handleCircleRadius = (value) => {
+const handleCircleRadius = (value, highestValue) => {
+    const highestRadius = 60
+    if (value === highestValue) return highestRadius
     if (value <= 0) return 10
-    if (value <= 1000) return 15
-    if (value <= 5000) return 20
-    if (value <= 15000) return 30
-    if (value <= 45000) return 40
-    if (value <= 75000) return 50
-    return 60
+    const percentageDiff = percentageDifference(highestValue, value)
+    if (percentageDiff <= 25) return 55
+    if (percentageDiff <= 50) return 50
+    if (percentageDiff <= 100) return 40
+    if (percentageDiff <= 150) return 25
+    return 20
 }
 
 // calculates the percentage difference between 2 numbers
