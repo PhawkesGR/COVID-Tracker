@@ -3,8 +3,9 @@ import { formatNumber, sort } from '../../utils.js'
 import styles from './RightSidebar.module.scss'
 import previous from '../../assets/left-arrow.png'
 import next from '../../assets/right-arrow.png'
+import LineChart from '../Charts/Line/LineChart.js'
 
-function RightSidebar({ countries, vaccinations }) {
+function RightSidebar({ countries, vaccinations, metric }) {
 
     let statsArray = [
         {
@@ -29,12 +30,19 @@ function RightSidebar({ countries, vaccinations }) {
         }
     ]
 
+    const chartTitle = {
+        cases: 'Worldwide New Cases',
+        deaths: 'Worldwide Deaths',
+        recovered: 'Worldwide Recovered'
+    }
+
     const [stats, setStats] = useState(statsArray[0])
     const [activeCases, setActiveCases] = useState([])
     const [totalCases, setTotalCases] = useState([])
     const [totalDeaths, setTotalDeaths] = useState([])
     const [totalRecovered, setTotalRecovered] = useState([])
     const [currentTable, setCurrentTable] = useState([])
+    const [chartData, setChartData] = useState({})
 
     useEffect(() => {
         const unsortedCases = countries.map(c => {
@@ -85,6 +93,15 @@ function RightSidebar({ countries, vaccinations }) {
         : setCurrentTable(totalRecovered)
     }, [stats])
 
+    useEffect(() => {
+        fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=365')
+        .then(res => res.json())
+        .then(response => {
+            console.log(response)
+            setChartData(response)
+        })
+    }, [])
+
     const changeStatistics = (action) => {
         if (action === 'next') {
             // get back to the first stat, if the current is the last one
@@ -99,24 +116,34 @@ function RightSidebar({ countries, vaccinations }) {
 
     return (
         <div className={styles.card}>
-            <div className={styles.title}>
-                <img onClick={() => changeStatistics('previous')} src={previous} alt='previous'></img>
-                <h1>{stats.title}</h1>
-                <img onClick={() => changeStatistics('next')} src={next} alt='next'></img>
+            <div className={styles.table}>
+                <div className={styles.title}>
+                    <img onClick={() => changeStatistics('previous')} src={previous} alt='previous'></img>
+                    <h1>{stats.title}</h1>
+                    <img onClick={() => changeStatistics('next')} src={next} alt='next'></img>
+                </div>
+                <div className={styles.countryRow}>
+                    <table>
+                        <tbody>
+                            {currentTable.map((country) => (
+                                <tr key={country.name}>
+                                    <td>{country.name}</td>
+                                    <td>
+                                        <strong>{formatNumber(country.value)}</strong>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div className={styles.countryRow}>
-                <table>
-                    <tbody>
-                        {currentTable.map((country) => (
-                            <tr key={country.name}>
-                                <td>{country.name}</td>
-                                <td>
-                                    <strong>{formatNumber(country.value)}</strong>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+            <div className={styles.graph}>
+                <div className={styles.title}>{chartTitle[metric]}</div>
+                <LineChart
+                    chartData={chartData}
+                    dimensions={{width: '335px', height: '200px'}}
+                    metric={metric}
+                />
             </div>
         </div>
     )

@@ -114,7 +114,7 @@ function App() {
         </div>
       </div>
       <div className={styles.RightSideBar}>
-        <RightSidebar vaccinations={vaccinesPerCountry} countries={country.map(c => ({
+        <RightSidebar metric={selectedMetric} vaccinations={vaccinesPerCountry} countries={country.map(c => ({
           name: c.country,
           active: c.active,
           deaths: c.deaths,
