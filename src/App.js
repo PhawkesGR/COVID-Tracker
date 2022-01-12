@@ -109,7 +109,7 @@ function App() {
             metric='deaths'
           />
         </div>
-        <div className='styles.Map'>
+        <div className={styles.Map}>
           <Map zoom={mapZoom} lat={coordinates.lat} long={coordinates.long} circles={circles} metric={selectedMetric}/>
         </div>
       </div>

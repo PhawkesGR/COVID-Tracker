@@ -141,7 +141,7 @@ function RightSidebar({ countries, vaccinations, metric }) {
                 <div className={styles.title}>{chartTitle[metric]}</div>
                 <LineChart
                     chartData={chartData}
-                    dimensions={{width: '335px', height: '200px'}}
+                    dimensions={{width: '335px', height: '250px'}}
                     metric={metric}
                 />
             </div>

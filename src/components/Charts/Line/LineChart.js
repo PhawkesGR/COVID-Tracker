@@ -26,8 +26,23 @@ ChartJS.register(
     Legend
 )
 
-function LineChart({ title, labels, metric, chartData, dimensions }) {
+function LineChart({ metric, chartData, dimensions }) {
     const [data, setData] = useState({})
+
+    const colors = {
+      cases: {
+        borderColor: '#5763e5',
+        backgroundColor: 'rgba(87, 99, 229, 0.5)'
+      },
+      deaths: {
+        borderColor: '#ff0000',
+        backgroundColor: 'rgba(255, 0, 0, 0.5)'
+      },
+      recovered: {
+        borderColor: '#49ef49',
+        backgroundColor: 'rgba(73, 239, 73, 0.5)'
+      },
+    }
 
     useEffect(() => {
         if (Object.keys(chartData).length > 0) {
@@ -39,8 +54,8 @@ function LineChart({ title, labels, metric, chartData, dimensions }) {
                     lineTension: 0,
                     fill: true,
                     label: metric,
-                    borderColor: 'rgb(255, 0, 0)',
-                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    borderColor: colors[metric].borderColor,
+                    backgroundColor: colors[metric].backgroundColor,
                     data: values
                 }]
             })

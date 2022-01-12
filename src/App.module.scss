@@ -20,10 +20,15 @@ body {
   align-items: center;
 }
 
+.Map {
+  padding: 5px 5px 0 5px;
+}
+
 .MainContent {
   flex: 80%;
 }
 
 .RightSideBar {
   flex: 20%;
+  display: flex;
 }
