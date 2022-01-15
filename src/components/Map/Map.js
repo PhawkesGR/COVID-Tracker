@@ -1,7 +1,7 @@
 import styles from './Map.module.scss'
 import { useEffect, useState } from 'react'
 import { MapContainer, TileLayer, Popup, CircleMarker } from 'react-leaflet'
-import { handleCircleRadius, sort } from '../../utils.js'
+import { handleCircleRadius, sort, formatNumber } from '../../utils.js'
 
 function Map({ lat, long, zoom, circles, metric }) {
     const [circleColor, setCircleColor] = useState('')
@@ -36,9 +36,9 @@ function Map({ lat, long, zoom, circles, metric }) {
                                     <div className={styles.infoContainer}>
                                         <div><img src={info.flag} alt={info.country} /></div>
                                         <div><h1 className={styles.PopupTitle}>{info.country}</h1></div>
-                                        <div><h2 className={styles.PopupSubtitle}>Cases: {info.cases}</h2></div>
-                                        <div><h2 className={styles.PopupSubtitle}>Recovered: {info.recovered}</h2></div>
-                                        <div><h2 className={styles.PopupSubtitle}>Deaths: {info.deaths}</h2></div>
+                                        <div><h2 className={styles.PopupSubtitle}>Cases: {formatNumber(info.cases)}</h2></div>
+                                        <div><h2 className={styles.PopupSubtitle}>Recovered: {formatNumber(info.recovered)}</h2></div>
+                                        <div><h2 className={styles.PopupSubtitle}>Deaths: {formatNumber(info.deaths)}</h2></div>
                                     </div>
                                 </Popup>
                             </CircleMarker>

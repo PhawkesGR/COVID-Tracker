@@ -4,7 +4,7 @@ import RightSidebar from '../RightSideBar/RightSidebar';
 import InfoBox from '../InfoBox/InfoBox';
 import Map from '../Map/Map';
 
-function Home() {
+function Home({ selectedCountry }) {
     const [countryInfo, setCountryInfo] = useState({})
     const [country, setCountryInput] = useState([])
     const [mapZoom, setMapZoom] = useState(3)
@@ -12,7 +12,7 @@ function Home() {
     const [circles, setCircles] = useState([])
     const [selectedMetric, setSelectedMetric] = useState('cases')
 
-    // get Worldwide Data
+    // get Worldwide Data (default state)
     useEffect(() => {
         fetch("https://disease.sh/v3/covid-19/all")
         .then(res => res.json())
@@ -23,6 +23,7 @@ function Home() {
     }, []);
 
     // get Data for all countries
+    // used to create the initial Map
     useEffect(() => {
         fetch("https://disease.sh/v3/covid-19/countries")
         .then(res => res.json())
@@ -42,6 +43,25 @@ function Home() {
         }))
         })
     }, [])
+
+    // set new data every time a new country is selected
+    useEffect(() => {
+        const fetchURL = selectedCountry === 'Worldwide' ?
+            'https://disease.sh/v3/covid-19/all' : `https://disease.sh/v3/covid-19/countries/${selectedCountry}`
+        
+        fetch(fetchURL)
+        .then(res => res.json())
+        .then(response => {
+            setCountryInfo(response)
+            if (selectedCountry === 'Worldwide') {
+                setCoordinates({lat: 34.80746, long: -40.4796})
+                setMapZoom(3)
+            } else {
+                setCoordinates({lat: response.countryInfo.lat, long: response.countryInfo.long})
+                setMapZoom(5)
+            }
+        })
+    }, [selectedCountry])
 
     return (
         <div className={styles.Home}>

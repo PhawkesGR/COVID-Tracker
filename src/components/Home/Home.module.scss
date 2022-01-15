@@ -8,6 +8,7 @@
     justify-content: center;
     gap: 2em;
     align-items: center;
+    padding-top: 0px;
 }
 
 .Map {
@@ -21,4 +22,5 @@
 .RightSideBar {
     flex: 20%;
     display: flex;
+    padding-right: 0px;
 }
