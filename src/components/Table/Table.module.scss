@@ -1,0 +1,41 @@
+.container {
+    .table {
+        display: flex;
+        justify-content: center;
+        overflow: scroll;
+        background-color: white;
+        height: 410px;
+        width: 100%;
+    
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    
+        tr {
+            display: flex;
+            justify-content: space-between;
+            line-height: 3px;
+        }
+          
+        td {
+            padding: 0.5rem;
+            border: none;
+        }
+          
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    }
+    
+    .title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+    
+        i {
+            font-size: 20px;
+            cursor: pointer;
+        }
+    }
+}
