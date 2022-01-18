@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import styles from './Home.module.scss'
-import RightSidebar from '../RightSideBar/RightSidebar';
-import InfoBox from '../InfoBox/InfoBox';
-import Map from '../Map/Map';
+import RightSidebar from '../../components/RightSideBar/RightSidebar';
+import InfoBox from '../../components/InfoBox/InfoBox';
+import Map from '../../components/Map/Map';
+import { beautifyNumber } from '../../utils';
 
 function Home({ selectedCountry }) {
     const [countryInfo, setCountryInfo] = useState({})
@@ -67,30 +68,33 @@ function Home({ selectedCountry }) {
         <div className={styles.Home}>
             <div className={styles.MainContent}>
                 <div className={styles.InfoBoxRow}>
-                <InfoBox
-                    onClick={() => setSelectedMetric('cases')}
-                    active={selectedMetric === 'cases'}
-                    title='COVID Cases'
-                    value={countryInfo.todayCases}
-                    subValue={countryInfo.cases}
-                    metric='cases'
-                />
-                <InfoBox
-                    onClick={() => setSelectedMetric('recovered')}
-                    active={selectedMetric === 'recovered'}
-                    title='Recovered'
-                    value={countryInfo.todayRecovered}
-                    subValue={countryInfo.recovered}
-                    metric='recovered'
-                />
-                <InfoBox
-                    onClick={() => setSelectedMetric('deaths')}
-                    active={selectedMetric === 'deaths'}
-                    title='Deaths'
-                    value={countryInfo.todayDeaths}
-                    subValue={countryInfo.deaths}
-                    metric='deaths'
-                />
+                    <InfoBox
+                        onClick={() => setSelectedMetric('cases')}
+                        active={selectedMetric === 'cases'}
+                        title='COVID Cases'
+                        value={countryInfo.todayCases}
+                        subValue={`${beautifyNumber(countryInfo.cases)} Total Cases`}
+                        metric='cases'
+                        prefix={'+'}
+                    />
+                    <InfoBox
+                        onClick={() => setSelectedMetric('recovered')}
+                        active={selectedMetric === 'recovered'}
+                        title='Recovered'
+                        value={countryInfo.todayRecovered}
+                        subValue={`${beautifyNumber(countryInfo.recovered)} Total Recovered`}
+                        metric='recovered'
+                        prefix={'+'}
+                    />
+                    <InfoBox
+                        onClick={() => setSelectedMetric('deaths')}
+                        active={selectedMetric === 'deaths'}
+                        title='Deaths'
+                        value={countryInfo.todayDeaths}
+                        subValue={`${beautifyNumber(countryInfo.deaths)} Total Deaths`}
+                        metric='deaths'
+                        prefix={'+'}
+                    />
                 </div>
                 <div className={styles.Map}>
                 <Map zoom={mapZoom} lat={coordinates.lat} long={coordinates.long} circles={circles} metric={selectedMetric}/>

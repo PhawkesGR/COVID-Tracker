@@ -1,7 +1,7 @@
 import styles from './Infobox.module.scss'
 import { beautifyNumber } from '../../utils'
 
-export default function InfoBox({ title, subValue, value, active, metric, ...props }) {
+export default function InfoBox({ title, subValue, value, active, metric, prefix, ...props }) {
     const activeInfoBoxClass = () => {
         if (active) {
             return metric === 'cases' ? styles.cases
@@ -17,10 +17,12 @@ export default function InfoBox({ title, subValue, value, active, metric, ...pro
                 {title}
             </div>
             <div className={`${styles.cardValue} ${styles[metric]}`}>
-                + {beautifyNumber(value)}
+                {prefix ? prefix : ''}{beautifyNumber(value)}
             </div>
             <div className={styles.cardSubvalue}>
-                {beautifyNumber(subValue)} Total {title}
+                {
+                    subValue ? subValue: ''
+                }
             </div>
         </div>
     )

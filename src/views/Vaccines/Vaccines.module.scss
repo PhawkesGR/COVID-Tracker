@@ -1,0 +1,51 @@
+.Vaccines {
+    display: flex;
+    flex-direction: row;
+}
+
+.MainContent {
+    flex: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.RightSideBar {
+    flex: 20%;
+    display: flex;
+    padding-right: 0px;
+}
+
+.InfoBoxRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2em;
+    padding: 0px 0px 2em 0px;
+}
+
+.VaccinesInfo {
+    display: flex;
+    justify-content: center;
+    overflow: scroll;
+    background-color: white;
+    height: 350px;
+    width: 100%;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    tr {
+        display: flex;
+        justify-content: space-between;
+        line-height: 3px;
+    }
+        
+    td {
+        padding: 0.5rem;
+        border: none;
+    }
+        
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+}
