@@ -1,10 +1,10 @@
 import { React, useState, useEffect } from 'react'
 import { sort } from '../../utils.js'
 import Table from '../Table/Table.js'
-import styles from './RightSidebar.module.scss'
+import styles from './HomeRightSidebar.module.scss'
 import LineChart from '../Charts/Line/LineChart.js'
 
-function RightSidebar({ countries, metric }) {
+function HomeRightSideBar({ countries, metric }) {
 
     const chartTitle = {
         cases: 'Worldwide New Cases',
@@ -91,4 +91,4 @@ function RightSidebar({ countries, metric }) {
     )
 }
 
-export default RightSidebar
+export default HomeRightSideBar

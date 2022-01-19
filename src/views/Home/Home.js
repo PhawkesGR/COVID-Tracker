@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 import styles from './Home.module.scss'
-import RightSidebar from '../../components/RightSideBar/RightSidebar';
-import InfoBox from '../../components/InfoBox/InfoBox';
-import Map from '../../components/Map/Map';
-import { beautifyNumber } from '../../utils';
+import HomeRightSideBar from '../../components/RightSideBar/HomeRightSidebar'
+import InfoBox from '../../components/InfoBox/InfoBox'
+import Map from '../../components/Map/Map'
+import { beautifyNumber } from '../../utils'
 
 function Home({ selectedCountry }) {
     const [countryInfo, setCountryInfo] = useState({})
@@ -101,7 +101,7 @@ function Home({ selectedCountry }) {
                 </div>
             </div>
             <div className={styles.RightSideBar}>
-            <RightSidebar metric={selectedMetric} countries={country.map(c => ({
+            <HomeRightSideBar metric={selectedMetric} countries={country.map(c => ({
                 name: c.country,
                 active: c.active,
                 deaths: c.deaths,

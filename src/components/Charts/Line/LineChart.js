@@ -42,6 +42,10 @@ function LineChart({ metric, chartData, dimensions }) {
         borderColor: '#49ef49',
         backgroundColor: 'rgba(73, 239, 73, 0.5)'
       },
+      vaccinations: {
+        borderColor: '#49ef49',
+        backgroundColor: 'rgba(73, 239, 73, 0.5)'
+      }
     }
 
     useEffect(() => {
@@ -51,18 +55,19 @@ function LineChart({ metric, chartData, dimensions }) {
             setData({
                 labels: keys,
                 datasets: [{
-                    lineTension: 0,
-                    fill: true,
-                    label: metric,
-                    borderColor: colors[metric].borderColor,
-                    backgroundColor: colors[metric].backgroundColor,
-                    data: values
+                  lineTension: 0,
+                  fill: true,
+                  label: metric,
+                  borderColor: colors[metric].borderColor,
+                  backgroundColor: colors[metric].backgroundColor,
+                  data: values
                 }]
             })
         }
     }, [chartData, metric])
 
     const options = {
+        animation: false,
         plugins: {
           legend: {
             display: false
@@ -91,8 +96,7 @@ function LineChart({ metric, chartData, dimensions }) {
             y: {
               suggestedMax: 45,
               ticks: {
-                stepSize: 5,
-                //max: 100
+                stepSize: 5
               }
             },
         },

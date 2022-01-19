@@ -1,11 +1,3 @@
-const totalVaccinations = (country, timeline) => {
-    const totalVaccinations = Object.values(timeline).reduce((prev, current) => prev + current)
-    return {
-        country,
-        totalVaccinations: formatNumber(totalVaccinations)
-    };
-}
-
 // return a number to US format
 const formatNumber = number => {
     return number.toLocaleString('en-US');
@@ -51,7 +43,6 @@ const beautifyNumber = (number) => {
 }
 
 export {
-    totalVaccinations,
     formatNumber,
     sort,
     handleCircleRadius,

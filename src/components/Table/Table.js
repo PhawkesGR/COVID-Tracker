@@ -51,7 +51,7 @@ function Table ({data}) {
     return (
         <div className={styles.container}>
             {
-                Object.keys(data).length > 1 ? renderMultipleTables() : <h1>{currentTable.title}</h1>
+                data.tables && Object.keys(data.tables).length > 1 ? renderMultipleTables() : <h1>{currentTable.title}</h1>
             }
             <div className={styles.table}>
                 {

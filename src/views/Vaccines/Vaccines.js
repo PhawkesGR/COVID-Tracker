@@ -1,20 +1,37 @@
 import { useState, useEffect } from 'react'
 import { nanoid } from 'nanoid'
-import {totalVaccinations } from '../../utils'
+import { sort } from '../../utils'
 import InfoBox from '../../components/InfoBox/InfoBox'
+import Table from '../../components/Table/Table'
 import styles from './Vaccines.module.scss'
+import LineChart from '../../components/Charts/Line/LineChart'
 
 function Vaccines() {
-    const [vaccinesPerCountry, setVaccinesPerCountry] = useState([])
     const [vaccines, setVaccines] = useState({})
+    const [tableData, setTableData] = useState({})
+    const [chartData, setChartData] = useState({})
     
-    // get total vaccine data
+    // get total vaccinations per country
     useEffect(() => {
         fetch('https://disease.sh/v3/covid-19/vaccine/coverage/countries?lastdays=1')
         .then(res => res.json())
         .then(response => {
-            console.log(response)
-            setVaccinesPerCountry(response.map(r => totalVaccinations(r.country, r.timeline)))
+            const data = {
+                tables: {
+                    totalVaccinations: {
+                        title: 'Total Vaccinations per Country',
+                        index: 0,
+                        data: sort(response.map(c => {
+                            return {
+                                key: c.country,
+                                value: Object.values(c.timeline)[0]
+                            }
+                        }))
+                    }
+                },
+                defaultTable: 'totalVaccinations'
+            }
+            setTableData(data)
         })
     }, [])
 
@@ -25,6 +42,16 @@ function Vaccines() {
         .then(response => {
             console.log(response)
             setVaccines(response)
+        })
+    }, [])
+
+    useEffect(() => {
+        fetch('https://disease.sh/v3/covid-19/vaccine/coverage?lastdays=365')
+        .then(res => res.json())
+        .then(response => {
+            setChartData({
+                vaccinations: response
+            })
         })
     }, [])
     
@@ -72,7 +99,13 @@ function Vaccines() {
                 </div>
             </div>
             <div className={styles.RightSidebar}>
-                    
+                <Table data={tableData}/>
+                <div className={styles.title}>Worldwide Vaccinations</div>
+                <LineChart 
+                    chartData={chartData}
+                    dimensions={{width: '335px', height: '250px'}}
+                    metric='vaccinations'
+                />
             </div>
         </div>
     )
