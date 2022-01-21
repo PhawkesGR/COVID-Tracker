@@ -71,28 +71,28 @@ function Home({ selectedCountry }) {
                     <InfoBox
                         onClick={() => setSelectedMetric('cases')}
                         active={selectedMetric === 'cases'}
+                        topBorderColor='#5763e5'
                         title='COVID Cases'
                         value={countryInfo.todayCases}
                         subValue={`${beautifyNumber(countryInfo.cases)} Total Cases`}
-                        metric='cases'
                         prefix={'+'}
                     />
                     <InfoBox
                         onClick={() => setSelectedMetric('recovered')}
                         active={selectedMetric === 'recovered'}
+                        topBorderColor='#49ef49'
                         title='Recovered'
                         value={countryInfo.todayRecovered}
                         subValue={`${beautifyNumber(countryInfo.recovered)} Total Recovered`}
-                        metric='recovered'
                         prefix={'+'}
                     />
                     <InfoBox
                         onClick={() => setSelectedMetric('deaths')}
                         active={selectedMetric === 'deaths'}
+                        topBorderColor='#d32626'
                         title='Deaths'
                         value={countryInfo.todayDeaths}
                         subValue={`${beautifyNumber(countryInfo.deaths)} Total Deaths`}
-                        metric='deaths'
                         prefix={'+'}
                     />
                 </div>
