@@ -7,10 +7,13 @@ import styles from './Vaccines.module.scss'
 import LineChart from '../../components/Charts/Line/LineChart'
 
 function Vaccines() {
-    const [vaccines, setVaccines] = useState({})
+    const [vaccines, setVaccines] = useState([])
+    const [selectedVaccines, setSelectedVaccines] = useState([])
     const [tableData, setTableData] = useState({})
     const [chartData, setChartData] = useState({})
     const [activeVaccineInfo, setActiveVaccineInfo] = useState(-1)
+    const [phases, setPhases] = useState([])
+    const [selectedPhase, setSelectedPhase] = useState('')
     
     // get total vaccinations per country
     useEffect(() => {
@@ -42,10 +45,18 @@ function Vaccines() {
         .then(res => res.json())
         .then(response => {
             console.log(response)
-            setVaccines(response)
+            setVaccines(response.data)
+            setPhases(response.phases)
         })
     }, [])
 
+    // show the vaccines of the currently selected trial phase
+    useEffect(() => {
+        if (selectedPhase === '') return setSelectedVaccines(vaccines)
+        return setSelectedVaccines(vaccines.filter(v => v.trialPhase === selectedPhase))
+    }, [selectedPhase, vaccines])
+
+    // get chart data
     useEffect(() => {
         fetch('https://disease.sh/v3/covid-19/vaccine/coverage?lastdays=365')
         .then(res => res.json())
@@ -61,31 +72,36 @@ function Vaccines() {
         return setActiveVaccineInfo(index)
     }
 
-    const setPhaseStyles = phase => {
-        let style
+    const phaseColor = phase => {
+        let color
         switch (phase) {
             case 'Pre-clinical':
-                style = styles.preclinical
+                color = 'violet'
                 break;
             case 'Phase 1':
-                style = styles.phase1
+                color = '#ff8989'
                 break;
             case 'Phase 1/2':
-                style = styles.phase12
+                color = '#ffc254'
                 break;
             case 'Phase 2':
-                style = styles.phase2
+                color = '#91ffca'
                 break;
             case 'Phase 2/3':
-                style = styles.phase23
+                color = '#a6eda6'
                 break;
             case 'Phase 3':
-                style = styles.phase3
+                color = '#71e771'
                 break;
             default:
                 break;
         }
-        return style
+        return color
+    }
+
+    const selectPhase = phase => {
+        if (phase === selectedPhase) return setSelectedPhase('')
+        return setSelectedPhase(phase)
     }
     
     return (
@@ -93,10 +109,13 @@ function Vaccines() {
             <div className={styles.MainContent}>
                 <div className={styles.InfoBoxRow}>
                     {
-                        Object.keys(vaccines).length > 0 ?
-                            vaccines.phases.map(p => {
+                        phases.length > 0 ?
+                            phases.map(p => {
                                 return (
                                     <InfoBox 
+                                        onClick={() => selectPhase(p.phase)}
+                                        active={selectedPhase === p.phase}
+                                        topBorderColor={phaseColor(p.phase)}
                                         title={p.phase}
                                         value={p.candidates}
                                         key={nanoid()}
@@ -108,9 +127,9 @@ function Vaccines() {
                 </div>
                 <div className={styles.VaccinesInfo}>
                     {
-                        Object.keys(vaccines).length > 0 ?
+                        vaccines.length > 0 ?
                         <div className={styles.vaccinesList}>
-                            {vaccines.data.map((v, index) => (
+                            {selectedVaccines.map((v, index) => (
                                 <div key={nanoid()} className={styles.container}>
                                     <div className={`${styles.mainInfo}`}>
                                         <div className={styles.text} onClick={() => openMoreInfo(index)}>
@@ -123,7 +142,7 @@ function Vaccines() {
                                             <div className={styles.mechanism}>
                                                 {v.mechanism.split('(')[0]}
                                             </div>
-                                            <div className={`${styles.phase} ${setPhaseStyles(v.trialPhase)}`}>
+                                            <div style={{backgroundColor: phaseColor(v.trialPhase)}} className={styles.phase}>
                                                 {v.trialPhase}
                                             </div>
                                         </div>
