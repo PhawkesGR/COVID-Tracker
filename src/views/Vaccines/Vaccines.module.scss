@@ -48,12 +48,17 @@
 .VaccinesInfo {
     display: flex;
     justify-content: flex-start;
+    flex-direction: column;
     overflow: scroll;
     background-color: white;
     height: 440px;
 
     &::-webkit-scrollbar {
         display: none;
+    }
+
+    .title {
+        font-size: 1.3em;
     }
 
     .vaccinesList {
@@ -107,8 +112,27 @@
     .moreInfo {
         display: none;
         background-color: #f3f2f2;
+
+        .sponsors {
+            display: flex;
+            flex-direction: row;
+            padding-left: 0;
+        }
+
+        h1 {
+            font-weight: bold;
+            font-size: 1em;
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            font-size: 1em;
+            font-weight: normal;
+        }
+
         &.revealInfo {
             display: flex;
+            flex-direction: column;
         }
     }
 

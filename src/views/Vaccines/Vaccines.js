@@ -44,7 +44,6 @@ function Vaccines() {
         fetch('https://disease.sh/v3/covid-19/vaccine')
         .then(res => res.json())
         .then(response => {
-            console.log(response)
             setVaccines(response.data)
             setPhases(response.phases)
         })
@@ -103,6 +102,8 @@ function Vaccines() {
         if (phase === selectedPhase) return setSelectedPhase('')
         return setSelectedPhase(phase)
     }
+
+    const truncate = (input) => input.length > 25 ? `${input.substring(0, 25)}...` : input
     
     return (
         <div className={styles.Vaccines}>
@@ -126,6 +127,7 @@ function Vaccines() {
                     }
                 </div>
                 <div className={styles.VaccinesInfo}>
+                    <div className={styles.title}>Vaccine Candidates: {selectedVaccines.length}</div>
                     {
                         vaccines.length > 0 ?
                         <div className={styles.vaccinesList}>
@@ -136,8 +138,8 @@ function Vaccines() {
                                             <div className={styles.candidate}>
                                                 {v.candidate.split('(')[0]}
                                             </div>
-                                            <div className={styles.sponsor}>
-                                                {v.sponsors.map(s => s)[0]}
+                                            <div title={v.sponsors.map(s => s)} className={styles.sponsor}>
+                                                {v.sponsors[0] !== '' ? truncate(v.sponsors.map(s => s)[0]) : 'No sponsors'}
                                             </div>
                                             <div className={styles.mechanism}>
                                                 {v.mechanism.split('(')[0]}
@@ -151,6 +153,10 @@ function Vaccines() {
                                         </div>
                                     </div>
                                     <div className={activeVaccineInfo !== index ? styles.moreInfo : `${styles.moreInfo} ${styles.revealInfo}`}>
+                                        <div className={styles.sponsors}>
+                                            <h1>Sponsors: </h1>
+                                            <h2>{v.sponsors.map(s => s).join(', ')}</h2>
+                                        </div>
                                         <p>
                                             {decodeHtml(v.details)}
                                         </p>
