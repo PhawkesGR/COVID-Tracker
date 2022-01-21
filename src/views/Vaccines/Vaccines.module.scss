@@ -7,6 +7,7 @@
     flex: 80%;
     display: flex;
     flex-direction: column;
+    padding-top: 0px;
 }
 
 .RightSidebar {
@@ -40,33 +41,103 @@
 .InfoBoxRow {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 2em;
-    padding: 0px 0px 2em 0px;
+    gap: 1em;
+    padding: 0px 0px 15px 0px;
 }
 
 .VaccinesInfo {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     overflow: scroll;
     background-color: white;
-    height: 350px;
+    height: 440px;
 
     &::-webkit-scrollbar {
         display: none;
     }
 
-    tr {
+    .vaccinesList {
         display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+        padding: 0px;
+        gap: 5px;
+        width: 100%;
+
+        .container {
+        }
+
+        .preclinical {
+            background-color: violet;
+        }
+
+        .phase1 {
+            background-color: #ff8989;
+        }
+
+        .phase12 {
+            background-color: #ffc254;
+        }
+
+        .phase2 {
+            background-color: #91ffca;
+        }
+
+        .phase23 {
+            background-color: #a6eda6;
+        }
+
+        .phase3 {
+            background-color: #71e771;
+        }
+    }
+
+    .mainInfo {
+        display: flex;
+        flex-direction: row;
         justify-content: space-between;
-        line-height: 3px;
+        align-items: center;
+        background-color: #f3f2f2;
+
+        .text {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            cursor: pointer;
+
+            .candidate {
+                font-weight: bold;
+            }
+
+            .phase {
+                border: 1px solid transparent;
+                border-radius: 7px;
+            }
+
+            .sponsor {
+                border: 1px solid transparent;
+                border-radius: 7px;
+                background-color: #a5ccff;
+            }
+
+            .mechanism {
+                border: 1px solid transparent;
+                border-radius: 7px;
+                background-color: #f9ff75;
+            }
+        }
+
+        .button {
+            cursor: pointer;
+        }
     }
-        
-    td {
-        padding: 0.5rem;
-        border: none;
+
+    .moreInfo {
+        display: none;
+        background-color: #f3f2f2;
+        &.revealInfo {
+            display: flex;
+        }
     }
-        
-    tr:nth-child(even) {
-        background-color: #dddddd;
-    }
+
 }

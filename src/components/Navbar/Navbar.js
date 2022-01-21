@@ -6,7 +6,7 @@ function Navbar() {
         <div className={styles.navbar}>
             <NavLink to="/">Home</NavLink>
             <NavLink to="/graphs">Graphs</NavLink>
-            <NavLink to="/vaccines">Vaccinations</NavLink>
+            <NavLink to="/vaccines">Vaccines</NavLink>
         </div>
     )
 }

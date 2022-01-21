@@ -42,9 +42,16 @@ const beautifyNumber = (number) => {
     return formatter.format(number).toLowerCase()
 }
 
+const decodeHtml = (html) => {
+    let txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+}
+
 export {
     formatNumber,
     sort,
     handleCircleRadius,
-    beautifyNumber
+    beautifyNumber,
+    decodeHtml
 }

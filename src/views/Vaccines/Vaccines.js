@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { nanoid } from 'nanoid'
-import { sort } from '../../utils'
+import { sort, decodeHtml } from '../../utils'
 import InfoBox from '../../components/InfoBox/InfoBox'
 import Table from '../../components/Table/Table'
 import styles from './Vaccines.module.scss'
@@ -10,6 +10,7 @@ function Vaccines() {
     const [vaccines, setVaccines] = useState({})
     const [tableData, setTableData] = useState({})
     const [chartData, setChartData] = useState({})
+    const [activeVaccineInfo, setActiveVaccineInfo] = useState(-1)
     
     // get total vaccinations per country
     useEffect(() => {
@@ -54,6 +55,38 @@ function Vaccines() {
             })
         })
     }, [])
+
+    const openMoreInfo = (index) => {
+        if (index === activeVaccineInfo) return setActiveVaccineInfo(-1)
+        return setActiveVaccineInfo(index)
+    }
+
+    const setPhaseStyles = phase => {
+        let style
+        switch (phase) {
+            case 'Pre-clinical':
+                style = styles.preclinical
+                break;
+            case 'Phase 1':
+                style = styles.phase1
+                break;
+            case 'Phase 1/2':
+                style = styles.phase12
+                break;
+            case 'Phase 2':
+                style = styles.phase2
+                break;
+            case 'Phase 2/3':
+                style = styles.phase23
+                break;
+            case 'Phase 3':
+                style = styles.phase3
+                break;
+            default:
+                break;
+        }
+        return style
+    }
     
     return (
         <div className={styles.Vaccines}>
@@ -76,24 +109,36 @@ function Vaccines() {
                 <div className={styles.VaccinesInfo}>
                     {
                         Object.keys(vaccines).length > 0 ?
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <th>Candidate</th>
-                                    <th>Phase</th>
-                                    <th>Mechanism</th>
-                                    <th>Sponsors</th>
-                                </tr>
-                                {vaccines.data.map(v => (
-                                    <tr key={nanoid()}>
-                                        <td>{v.candidate}</td>
-                                        <td>{v.trialPhase}</td>
-                                        <td>{v.mechanism}</td>
-                                        <td>{v.sponsors.map(s => s)}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                        <div className={styles.vaccinesList}>
+                            {vaccines.data.map((v, index) => (
+                                <div key={nanoid()} className={styles.container}>
+                                    <div className={`${styles.mainInfo}`}>
+                                        <div className={styles.text} onClick={() => openMoreInfo(index)}>
+                                            <div className={styles.candidate}>
+                                                {v.candidate.split('(')[0]}
+                                            </div>
+                                            <div className={styles.sponsor}>
+                                                {v.sponsors.map(s => s)[0]}
+                                            </div>
+                                            <div className={styles.mechanism}>
+                                                {v.mechanism.split('(')[0]}
+                                            </div>
+                                            <div className={`${styles.phase} ${setPhaseStyles(v.trialPhase)}`}>
+                                                {v.trialPhase}
+                                            </div>
+                                        </div>
+                                        <div onClick={() => openMoreInfo(index)} className={`${styles.button} ${`material-icons`}`}>
+                                            {activeVaccineInfo !== index ? 'add' : 'remove'}
+                                        </div>
+                                    </div>
+                                    <div className={activeVaccineInfo !== index ? styles.moreInfo : `${styles.moreInfo} ${styles.revealInfo}`}>
+                                        <p>
+                                            {decodeHtml(v.details)}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                         : ''
                     }
                 </div>

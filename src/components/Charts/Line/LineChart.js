@@ -13,6 +13,7 @@ import {
 import { Line } from 'react-chartjs-2';
 import { useEffect, useState } from 'react';
 import 'chartjs-adapter-moment'
+import styles from './LineChart.module.scss'
 
 ChartJS.register(
     CategoryScale,
@@ -108,7 +109,7 @@ function LineChart({ metric, chartData, dimensions }) {
     }
 
     return (
-        <div>
+        <div className={styles.lineChart}>
             {
                 Object.keys(data).length > 0 ?
                     <>
