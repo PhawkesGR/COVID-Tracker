@@ -1,6 +1,22 @@
 .navbar {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+
+    a {
+        font-size: 1.2em;
+        color: #e33a3a;
+        font-weight: bold;
+    }
+
+    .active {
+        text-decoration: underline;
+        text-underline-position: under;
+        text-decoration-thickness: 2px;
+    }
+
+    .inactive {
+        text-decoration: none;
+    }
 }

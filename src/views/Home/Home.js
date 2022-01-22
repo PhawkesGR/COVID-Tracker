@@ -13,16 +13,6 @@ function Home({ selectedCountry }) {
     const [circles, setCircles] = useState([])
     const [selectedMetric, setSelectedMetric] = useState('cases')
 
-    // get Worldwide Data (default state)
-    useEffect(() => {
-        fetch("https://disease.sh/v3/covid-19/all")
-        .then(res => res.json())
-        .then(response => {
-        console.log(response)
-        setCountryInfo(response)
-        })
-    }, []);
-
     // get Data for all countries
     // used to create the initial Map
     useEffect(() => {
