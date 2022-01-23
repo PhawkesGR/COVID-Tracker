@@ -1,6 +1,6 @@
 import styles from './Map.module.scss'
 import { useEffect, useState } from 'react'
-import { MapContainer, TileLayer, Popup, CircleMarker } from 'react-leaflet'
+import { MapContainer, TileLayer, Popup, CircleMarker, useMap } from 'react-leaflet'
 import { handleCircleRadius, sort, formatNumber } from '../../utils.js'
 
 function Map({ lat, long, zoom, circles, metric }) {
@@ -20,6 +20,13 @@ function Map({ lat, long, zoom, circles, metric }) {
         }))[0]
         setHighestValue(highest && highest.value !== undefined ? highest.value : 0)
     }, [circles, metric])
+
+    const SetCoordinates = ({ coords }) => {
+        const map = useMap()
+        map.setView([coords.lat, coords.long], coords.zoom)
+      
+        return null
+    }
 
     return (
         <div className={styles.card} key={lat}>
@@ -45,6 +52,7 @@ function Map({ lat, long, zoom, circles, metric }) {
                         )
                     })
                 }
+                <SetCoordinates coords={{lat, long, zoom}} />
             </MapContainer>
         </div>
     )

@@ -49,7 +49,7 @@ function Home({ selectedCountry }) {
                 setMapZoom(3)
             } else {
                 setCoordinates({lat: response.countryInfo.lat, long: response.countryInfo.long})
-                setMapZoom(5)
+                setMapZoom(6)
             }
         })
     }, [selectedCountry])
