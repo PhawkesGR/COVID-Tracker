@@ -6,8 +6,11 @@
     flex: 1;
     flex-direction: row;
 
-    h1 {
+    .home {
       color: #e33a3a;
+      font-size: 1.8em;
+      font-weight: bold;
+      text-decoration: none;
     }
 
     select {

@@ -1,5 +1,5 @@
-import React from 'react'
 import { useState, useEffect } from 'react'
+import { NavLink } from 'react-router-dom'
 import Navbar from '../Navbar/Navbar'
 import styles from './Header.module.scss'
 
@@ -21,7 +21,7 @@ function Header({ onCountrySelect }) {
 
     return (
         <div className={styles.Header}>
-            <h1>COVID Tracker</h1>
+            <NavLink className={styles.home} to="/">COVID Tracker</NavLink>
             <Navbar />
             <select onChange={handleChange}>
                 <option value='Worldwide'>Worldwide</option>

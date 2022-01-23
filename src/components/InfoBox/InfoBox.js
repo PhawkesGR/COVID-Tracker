@@ -6,7 +6,7 @@ export default function InfoBox({ title, subValue, value, active, prefix, ...pro
     return (
         <div className={`${styles.card}`} style={props.topBorderColor && active ? {borderTop: `10px solid ${props.topBorderColor}`} : null} onClick={props.onClick}>
             {
-                Number.isInteger(value) ? 
+                value !== undefined ? 
                 <>
                     <div className={styles.cardTitle}>
                         {title}
