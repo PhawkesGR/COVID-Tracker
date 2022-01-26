@@ -68,7 +68,6 @@ function HomeRightSideBar({ countries, metric }) {
         fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=365')
         .then(res => res.json())
         .then(response => {
-            console.log(response)
             setChartData(response)
         })
     }, [])

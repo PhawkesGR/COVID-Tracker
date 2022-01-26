@@ -27,7 +27,7 @@ ChartJS.register(
     Legend
 )
 
-function LineChart({ metric, chartData, dimensions }) {
+function LineChart({ metric, chartData, dimensions, options }) {
     const [data, setData] = useState({})
 
     const colors = {
@@ -50,24 +50,25 @@ function LineChart({ metric, chartData, dimensions }) {
     }
 
     useEffect(() => {
-        if (Object.keys(chartData).length > 0) {
-            const keys = Object.keys(chartData[metric])
-            const values = Object.values(chartData[metric])
-            setData({
-                labels: keys,
-                datasets: [{
-                  lineTension: 0,
-                  fill: true,
-                  label: metric,
-                  borderColor: colors[metric].borderColor,
-                  backgroundColor: colors[metric].backgroundColor,
-                  data: values
-                }]
-            })
-        }
+      console.log(chartData)
+      if (Object.keys(chartData).length > 0) {
+        const keys = Object.keys(chartData[metric])
+        const values = Object.values(chartData[metric])
+        setData({
+            labels: keys,
+            datasets: [{
+              lineTension: 0,
+              fill: true,
+              label: metric,
+              borderColor: colors[metric].borderColor,
+              backgroundColor: colors[metric].backgroundColor,
+              data: values
+            }]
+        })
+      }
     }, [chartData, metric])
 
-    const options = {
+    const defaultOptions = {
         animation: false,
         plugins: {
           legend: {
@@ -108,13 +109,15 @@ function LineChart({ metric, chartData, dimensions }) {
         }
     }
 
+    const finalOptions = Object.assign({}, defaultOptions, options)
+
     return (
         <div className={styles.lineChart}>
             {
                 Object.keys(data).length > 0 ?
                     <>
                         <Line
-                            options={options}
+                            options={finalOptions}
                             data={data}
                             width={dimensions.width}
                             height={dimensions.height}
