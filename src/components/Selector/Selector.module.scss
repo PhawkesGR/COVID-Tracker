@@ -1,0 +1,23 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    background-color: white;
+    padding: 0;
+
+    .option {
+        flex: 1;
+        border: 1px solid lightgray;
+        min-width: 35px;
+        text-align: center;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #e7e7e7;
+        }
+
+        &.selected {
+            background-color: #e7e7e7;
+        }
+    }
+}
