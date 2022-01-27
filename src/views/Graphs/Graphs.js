@@ -1,15 +1,18 @@
 import styles from './Graphs.module.scss'
 import { useState, useEffect } from 'react'
+import { buildDoughnutData, filterOptions } from './helpers'
 import LineChart from '../../components/Charts/Line/LineChart'
+import DoughnutChart from '../../components/Charts/Doughnut/DoughnutChart'
 import Selector from '../../components/Selector/Selector'
 
 function Graphs({ selectedCountry }) {
-    const [timeframe, setTimeframe] = useState(30)
+    const [timeframe, setTimeframe] = useState(365)
     const [cases, setCases] = useState({})
     const [recovered, setRecovered] = useState({})
     const [deaths, setDeaths] = useState({})
     const [vaccinations, setVaccinations] = useState({})
     const [chartOptions, setChartOptions] = useState({})
+    const [chartData, setChartData] = useState({})
 
     // get cases, deaths, recovered
     useEffect(() => {
@@ -45,7 +48,6 @@ function Graphs({ selectedCountry }) {
         .then(res => res.json())
         .then(response => {
             let result = {}
-            console.log(response)
             if (response.message) return
             if (response.country) {
                 Object.assign(result, response.timeline)
@@ -73,6 +75,48 @@ function Graphs({ selectedCountry }) {
                     stepSize: 10000
                   }
                 }
+            },
+            '182': {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'month',
+                        stepSize: 1
+                    }
+                  },
+                  y: {
+                    ticks: {
+                      stepSize: 10000
+                    }
+                  }
+            },
+            '365': {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'month',
+                        stepSize: 1
+                    }
+                  },
+                  y: {
+                    ticks: {
+                      stepSize: 10000
+                    }
+                  }
+            },
+            'all': {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'month',
+                        stepSize: 3
+                    }
+                  },
+                  y: {
+                    ticks: {
+                      stepSize: 10000
+                    }
+                  }
             }
         }
         setChartOptions({
@@ -80,31 +124,22 @@ function Graphs({ selectedCountry }) {
         })
     }, [timeframe])
 
-    const filterOptions = [
-        {
-            value: 30,
-            displayText: '1M',
-            selected: true
-        },
-        {
-            value: 182,
-            displayText: '6M',
-            selected: false
-        },
-        {
-            value: 365,
-            displayText: '1Y',
-            selected: false
-        },
-        {
-            value: 'all',
-            displayText: 'ALL',
-            selected: false
-        },
-    ]
+    // get data per continent
+    useEffect(() => {
+        fetch('https://disease.sh/v3/covid-19/continents')
+        .then(res => res.json())
+        .then(response => {
+            setChartData({
+                cases: buildDoughnutData(response, 'cases'),
+                deaths: buildDoughnutData(response, 'deaths'),
+                recovered: buildDoughnutData(response, 'recovered'),
+                labels: response.map(r => r.continent)
+            })
+        })
+    }, [])
 
     const filterChanged = filter => {
-        console.log(filter)
+        setTimeframe(filter.value)
     }
 
     return (
@@ -130,6 +165,17 @@ function Graphs({ selectedCountry }) {
                     </div>
                 </div>
 
+                {/* Cases per Continent Chart */}
+                <div className={styles.continents}>
+                    <div className={styles.card}>
+                        <h1 className={styles.title}>Cases per Continent</h1>
+                        <DoughnutChart
+                            dimensions={{width: '250px', height: '335px'}}
+                            chartData={{labels: chartData.labels, datasets: chartData.cases}}
+                        />
+                    </div>
+                </div>
+
                 {/* Recovered Chart */}
                 <div className={styles.recovered}>
                     <div className={styles.card}>
@@ -147,6 +193,17 @@ function Graphs({ selectedCountry }) {
                     </div>
                 </div>
 
+                {/* Recovered per Continent Chart */}
+                <div className={styles.continents}>
+                    <div className={styles.card}>
+                        <h1 className={styles.title}>Recovered per Continent</h1>
+                        <DoughnutChart
+                            dimensions={{width: '250px', height: '335px'}}
+                            chartData={{labels: chartData.labels, datasets: chartData.recovered}}
+                        />
+                    </div>
+                </div>
+
                 {/* Deaths Chart */}
                 <div className={styles.deaths}>
                     <div className={styles.card}>
@@ -161,6 +218,17 @@ function Graphs({ selectedCountry }) {
                                 />
                             : 'No data available'
                         }
+                    </div>
+                </div>
+
+                {/* Deaths per Continent Chart */}
+                <div className={styles.continents}>
+                    <div className={styles.card}>
+                        <h1 className={styles.title}>Deaths per Continent</h1>
+                        <DoughnutChart
+                            dimensions={{width: '250px', height: '335px'}}
+                            chartData={{labels: chartData.labels, datasets: chartData.deaths}}
+                        />
                     </div>
                 </div>
 

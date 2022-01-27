@@ -50,7 +50,6 @@ function LineChart({ metric, chartData, dimensions, options }) {
     }
 
     useEffect(() => {
-      console.log(chartData)
       if (Object.keys(chartData).length > 0) {
         const keys = Object.keys(chartData[metric])
         const values = Object.values(chartData[metric])

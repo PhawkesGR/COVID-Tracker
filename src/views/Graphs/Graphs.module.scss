@@ -11,9 +11,25 @@
         gap: 1em;
         width: 100%;
 
+        .continents {
+            display: flex;
+        }
+
+        .deaths {
+            display: flex;
+        }
+
+        .cases {
+            display: flex;
+        }
+
+        .recovered {
+            display: flex;
+        }
+
         .card {
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             flex-direction: column;
             background-color: white;
