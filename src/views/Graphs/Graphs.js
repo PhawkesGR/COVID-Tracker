@@ -6,7 +6,7 @@ import DoughnutChart from '../../components/Charts/Doughnut/DoughnutChart'
 import Selector from '../../components/Selector/Selector'
 
 function Graphs({ selectedCountry }) {
-    const [timeframe, setTimeframe] = useState(365)
+    const [timeframe, setTimeframe] = useState('all')
     const [cases, setCases] = useState({})
     const [recovered, setRecovered] = useState({})
     const [deaths, setDeaths] = useState({})
@@ -166,15 +166,18 @@ function Graphs({ selectedCountry }) {
                 </div>
 
                 {/* Cases per Continent Chart */}
-                <div className={styles.continents}>
-                    <div className={styles.card}>
-                        <h1 className={styles.title}>Cases per Continent</h1>
-                        <DoughnutChart
-                            dimensions={{width: '250px', height: '335px'}}
-                            chartData={{labels: chartData.labels, datasets: chartData.cases}}
-                        />
+                {
+                    timeframe === 'all' &&
+                    <div className={styles.continents}>
+                        <div className={styles.card}>
+                            <h1 className={styles.title}>Cases per Continent</h1>
+                            <DoughnutChart
+                                dimensions={{width: '250px', height: '335px'}}
+                                chartData={{labels: chartData.labels, datasets: chartData.cases}}
+                            />
+                        </div>
                     </div>
-                </div>
+                }
 
                 {/* Recovered Chart */}
                 <div className={styles.recovered}>
@@ -194,15 +197,18 @@ function Graphs({ selectedCountry }) {
                 </div>
 
                 {/* Recovered per Continent Chart */}
-                <div className={styles.continents}>
-                    <div className={styles.card}>
-                        <h1 className={styles.title}>Recovered per Continent</h1>
-                        <DoughnutChart
-                            dimensions={{width: '250px', height: '335px'}}
-                            chartData={{labels: chartData.labels, datasets: chartData.recovered}}
-                        />
+                {
+                    timeframe === 'all' &&
+                    <div className={styles.continents}>
+                        <div className={styles.card}>
+                            <h1 className={styles.title}>Recovered per Continent</h1>
+                            <DoughnutChart
+                                dimensions={{width: '250px', height: '335px'}}
+                                chartData={{labels: chartData.labels, datasets: chartData.recovered}}
+                            />
+                        </div>
                     </div>
-                </div>
+                }
 
                 {/* Deaths Chart */}
                 <div className={styles.deaths}>
@@ -222,15 +228,18 @@ function Graphs({ selectedCountry }) {
                 </div>
 
                 {/* Deaths per Continent Chart */}
-                <div className={styles.continents}>
-                    <div className={styles.card}>
-                        <h1 className={styles.title}>Deaths per Continent</h1>
-                        <DoughnutChart
-                            dimensions={{width: '250px', height: '335px'}}
-                            chartData={{labels: chartData.labels, datasets: chartData.deaths}}
-                        />
+                {
+                    timeframe === 'all' &&
+                    <div className={styles.continents}>
+                        <div className={styles.card}>
+                            <h1 className={styles.title}>Deaths per Continent</h1>
+                            <DoughnutChart
+                                dimensions={{width: '250px', height: '335px'}}
+                                chartData={{labels: chartData.labels, datasets: chartData.deaths}}
+                            />
+                        </div>
                     </div>
-                </div>
+                }
 
                 {/* Vaccinations Chart */}
                 <div className={styles.vaccinations}>
