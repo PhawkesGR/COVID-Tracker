@@ -1,27 +1,27 @@
 const continentColors = {
     'North America': {
-        backgroundColor: '#ff0505',
-        borderColor: '#ff0505'
+        backgroundColor: '#ff5454',
+        borderColor: '#ff5454'
     },
     'Asia': {
-        backgroundColor: '#f9d524',
-        borderColor: '#f9d524'
+        backgroundColor: '#f9dd54',
+        borderColor: '#f9dd54'
     },
     'South America': {
-        backgroundColor: '#02bb02',
-        borderColor: '#02bb02'
+        backgroundColor: '#6cf76c',
+        borderColor: '#6cf76c'
     },
     'Europe': {
-        backgroundColor: '#2c3cef',
-        borderColor: '#2c3cef'
+        backgroundColor: '#858ffd',
+        borderColor: '#858ffd'
     },
     'Africa': {
         backgroundColor: '#fda300',
         borderColor: '#fda300'
     },
     'Australia-Oceania': {
-        backgroundColor: '#ac03af',
-        borderColor: '#ac03af'
+        backgroundColor: '#a940ab',
+        borderColor: '#a940ab'
     }
 }
 
