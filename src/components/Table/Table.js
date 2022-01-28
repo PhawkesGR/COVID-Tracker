@@ -55,19 +55,19 @@ function Table ({data}) {
             }
             <div className={styles.table}>
                 {
-                    Object.keys(data).length > 1 ?
+                    Object.keys(data).length > 1 &&
                     <table>
                         <tbody>
-                            {Object.keys(currentTable).length > 0 ? currentTable.data.map((d) => (
+                            {Object.keys(currentTable).length > 0 && currentTable.data.map((d) => (
                                 <tr key={nanoid()}>
                                     <td>{d.key}</td>
                                     <td>
                                         <strong>{formatNumber(d.value)}</strong>
                                     </td>
                                 </tr>
-                            )) : ''}
+                            ))}
                         </tbody>
-                    </table> : null
+                    </table>
                 }
             </div>
         </div>
