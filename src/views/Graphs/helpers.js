@@ -59,7 +59,80 @@ const filterOptions = [
     },
 ]
 
+/*
+    The API returns multiple objects per country (different provinces).
+    This function adds up the data (cases, deaths, recovered) into one.
+*/
+
+const combineDataPerCountry = data => {
+    let total = []
+    let previousCountry = ''
+
+    for (let i = 0; i < data.length; i++) {
+        if (data[i].country === previousCountry) {
+            const index = total.findIndex(t => t.country === data[i].country)
+            total[index].cases = total[index].cases + Object.values(data[i].timeline.cases)[0]
+            total[index].deaths = total[index].deaths + Object.values(data[i].timeline.deaths)[0]
+            total[index].recovered = total[index].recovered + Object.values(data[i].timeline.recovered)[0]
+        } else {
+            previousCountry = data[i].country
+            total.push({
+                country: data[i].country,
+                cases: Object.values(data[i].timeline.cases)[0],
+                deaths: Object.values(data[i].timeline.deaths)[0],
+                recovered: Object.values(data[i].timeline.recovered)[0]
+            })
+        }
+    }
+    return total
+}
+
+/* 
+    with the knowledge of countries per continent and the data from each individual country,
+    add up the data for each continent
+*/
+const combineDataPerContinent = (countriesPerContinent, countryData) => {
+    return countriesPerContinent.map(ccp => {
+      return {
+        continent: ccp.continent,
+        cases: ccp.countries.map(c => {
+            return countryData.find(cd => c === cd.country) === undefined
+                ? 0 : countryData.find(cd => c === cd.country).cases
+        }).reduce((prev, curr) => prev + curr, 0),
+        deaths: ccp.countries.map(c => {
+            return countryData.find(cd => c === cd.country) === undefined
+                ? 0 : countryData.find(cd => c === cd.country).deaths
+        }).reduce((prev, curr) => prev + curr, 0),
+        recovered: ccp.countries.map(c => {
+            return countryData.find(cd => c === cd.country) === undefined
+                ? 0 : countryData.find(cd => c === cd.country).recovered
+        }).reduce((prev, curr) => prev + curr, 0)
+      }
+    })
+}
+
+const findHistoricalDataPerContinent = (continents, historicalData) => {
+    const countriesPerContinent = continents.map(c => {
+        return {
+            continent: c.continent,
+            countries: c.countries
+        }
+    })
+
+    const countryData = combineDataPerCountry(historicalData)
+
+    const dataPerContinent = combineDataPerContinent(countriesPerContinent, countryData)
+
+    return {
+        labels: dataPerContinent.map(d => d.continent),
+        cases: dataPerContinent,
+        deaths: dataPerContinent,
+        recovered: dataPerContinent
+    }
+}
+
 export {
     buildDoughnutData,
+    findHistoricalDataPerContinent,
     filterOptions
 }

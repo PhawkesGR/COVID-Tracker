@@ -1,6 +1,6 @@
 import styles from './Graphs.module.scss'
 import { useState, useEffect } from 'react'
-import { buildDoughnutData, filterOptions } from './helpers'
+import { buildDoughnutData, filterOptions, findHistoricalDataPerContinent } from './helpers'
 import LineChart from '../../components/Charts/Line/LineChart'
 import DoughnutChart from '../../components/Charts/Doughnut/DoughnutChart'
 import Selector from '../../components/Selector/Selector'
@@ -126,17 +126,32 @@ function Graphs({ selectedCountry }) {
 
     // get data per continent
     useEffect(() => {
-        fetch('https://disease.sh/v3/covid-19/continents')
-        .then(res => res.json())
+        let promises = [fetch('https://disease.sh/v3/covid-19/continents')]
+        if (timeframe !== 'all') promises.push(fetch(`https://disease.sh/v3/covid-19/historical?lastdays=${timeframe}`))
+        
+        Promise.all(promises)
         .then(response => {
-            setChartData({
-                cases: buildDoughnutData(response, 'cases'),
-                deaths: buildDoughnutData(response, 'deaths'),
-                recovered: buildDoughnutData(response, 'recovered'),
-                labels: response.map(r => r.continent)
-            })
+            return Promise.all(response.map(r => r.json()))
         })
-    }, [])
+        .then(response => {
+            if (response.length === 1) {
+                setChartData({
+                    cases: buildDoughnutData(response[0], 'cases'),
+                    deaths: buildDoughnutData(response[0], 'deaths'),
+                    recovered: buildDoughnutData(response[0], 'recovered'),
+                    labels: response[0].map(r => r.continent)
+                })
+            } else {
+                const dataPerContinent = findHistoricalDataPerContinent(response[0], response[1])
+                setChartData({
+                    cases: buildDoughnutData(dataPerContinent.cases, 'cases'),
+                    deaths: buildDoughnutData(dataPerContinent.deaths, 'deaths'),
+                    recovered: buildDoughnutData(dataPerContinent.recovered, 'recovered'),
+                    labels: dataPerContinent.labels
+                })
+            }
+        })
+    }, [timeframe])
 
     const filterChanged = filter => {
         setTimeframe(filter.value)
@@ -160,24 +175,11 @@ function Graphs({ selectedCountry }) {
                                     dimensions={{width: '335px', height: '250px'}}
                                     metric='cases'
                                 />
-                            : 'No data available'
+                            : <div className={styles.noData}>No data available</div>
                         }
                     </div>
                 </div>
 
-                {/* Cases per Continent Chart */}
-                {
-                    timeframe === 'all' &&
-                    <div className={styles.continents}>
-                        <div className={styles.card}>
-                            <h1 className={styles.title}>Cases per Continent</h1>
-                            <DoughnutChart
-                                dimensions={{width: '250px', height: '335px'}}
-                                chartData={{labels: chartData.labels, datasets: chartData.cases}}
-                            />
-                        </div>
-                    </div>
-                }
 
                 {/* Recovered Chart */}
                 <div className={styles.recovered}>
@@ -191,24 +193,10 @@ function Graphs({ selectedCountry }) {
                                     dimensions={{width: '335px', height: '250px'}}
                                     metric='recovered'
                                 />
-                            : 'No data available'
+                            : <div className={styles.noData}>No data available</div>
                         }
                     </div>
                 </div>
-
-                {/* Recovered per Continent Chart */}
-                {
-                    timeframe === 'all' &&
-                    <div className={styles.continents}>
-                        <div className={styles.card}>
-                            <h1 className={styles.title}>Recovered per Continent</h1>
-                            <DoughnutChart
-                                dimensions={{width: '250px', height: '335px'}}
-                                chartData={{labels: chartData.labels, datasets: chartData.recovered}}
-                            />
-                        </div>
-                    </div>
-                }
 
                 {/* Deaths Chart */}
                 <div className={styles.deaths}>
@@ -222,14 +210,43 @@ function Graphs({ selectedCountry }) {
                                     dimensions={{width: '335px', height: '250px'}}
                                     metric='deaths'
                                 />
-                            : 'No data available'
+                            : <div className={styles.noData}>No data available</div>
                         }
                     </div>
                 </div>
 
+                {/* Cases per Continent Chart */}
+                {
+                    <div className={styles.continents}>
+                        <div className={styles.card}>
+                            <h1 className={styles.title}>Cases per Continent</h1>
+                            <DoughnutChart
+                                dimensions={{width: '250px', height: '335px'}}
+                                chartData={{labels: chartData.labels, datasets: chartData.cases}}
+                            />
+                        </div>
+                    </div>
+                }
+
+                {/* Recovered per Continent Chart */}
+                {
+                    <div className={styles.continents}>
+                        <div className={styles.card}>
+                            <h1 className={styles.title}>Recovered per Continent</h1>
+                            {
+                                chartData.recovered && chartData.recovered.data.filter(d => d === 0).length !== 6
+                                    ? <DoughnutChart
+                                        dimensions={{width: '250px', height: '335px'}}
+                                        chartData={{labels: chartData.labels, datasets: chartData.recovered}}
+                                      />
+                                    : <div className={styles.noData}>No data available</div>
+                            }
+                        </div>
+                    </div>
+                }
+
                 {/* Deaths per Continent Chart */}
                 {
-                    timeframe === 'all' &&
                     <div className={styles.continents}>
                         <div className={styles.card}>
                             <h1 className={styles.title}>Deaths per Continent</h1>
@@ -253,7 +270,7 @@ function Graphs({ selectedCountry }) {
                                     dimensions={{width: '335px', height: '250px'}}
                                     metric='vaccinations'
                                 />
-                            : 'No data available'
+                            : <div className={styles.noData}>No data available</div>
                         }
                     </div>
                 </div>
