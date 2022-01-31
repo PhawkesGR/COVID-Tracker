@@ -21,16 +21,19 @@ function Header({ onCountrySelect }) {
 
     return (
         <div className={styles.Header}>
-            <NavLink className={styles.home} to="/">COVID Tracker</NavLink>
-            <Navbar />
-            <select onChange={handleChange}>
+            <div><NavLink className={styles.home} to="/">COVID Tracker</NavLink></div>
+            <div><Navbar /></div>
+            <div><select onChange={handleChange}>
                 <option value='Worldwide'>Worldwide</option>
                 {countries.map(c => {
                     return (
                         <option value={c} key={c}>{c}</option>
                     )
                 })}
-            </select>
+            </select></div>
+            
+            
+            
             
         </div>
     )

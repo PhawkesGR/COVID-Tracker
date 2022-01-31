@@ -1,7 +1,7 @@
 .Header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     gap: 3em;
     flex: 1;
     flex-direction: row;
@@ -14,7 +14,6 @@
     }
 
     select {
-      max-width: 90%;
       padding: 5px 35px 5px 5px;
       font-size: 16px;
       border: 1px solid #CCC;
@@ -23,4 +22,13 @@
       box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
       border-radius: 5px;
     }
+}
+
+@media (max-width: 750px) {
+  .Header {
+      justify-content: center;
+      align-items: center;
+      gap: 1em;
+      flex-direction: column;
+  }
 }
