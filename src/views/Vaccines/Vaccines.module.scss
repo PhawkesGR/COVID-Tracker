@@ -78,6 +78,7 @@
 
         .text {
             display: flex;
+            flex-wrap: wrap;
             gap: 15px;
             width: 100%;
             cursor: pointer;
@@ -135,5 +136,15 @@
             flex-direction: column;
         }
     }
+}
 
+@media only screen and (max-width: 920px) {
+    .Vaccines {
+        flex-direction: column;
+        gap: 1em;
+    }
+
+    .VaccinesInfo {
+
+    }
 }
