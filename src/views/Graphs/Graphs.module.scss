@@ -7,25 +7,10 @@
     
     .graphsContainer {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 450px));
+        justify-content: center;
         gap: 1em;
         width: 100%;
-
-        .continents {
-            display: flex;
-        }
-
-        .deaths {
-            display: flex;
-        }
-
-        .cases {
-            display: flex;
-        }
-
-        .recovered {
-            display: flex;
-        }
 
         .card {
             display: flex;
@@ -57,8 +42,12 @@
     }
 }
 
-@media (max-width: 650px) {
+@media screen and (max-width: 975px) {
     .container {
-        grid-template-columns: 1fr;
+        .graphsContainer {
+            display: flex;
+            flex-direction: column;
+            width: 90%;
+        }
     }
 }

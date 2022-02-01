@@ -164,115 +164,101 @@ function Graphs({ selectedCountry }) {
             </div>
             <div className={styles.graphsContainer}>
                 {/* Cases Chart */}
-                <div className={styles.cases}> 
-                    <div className={styles.card}>
-                        <h1 className={styles.title}>Cases</h1>
-                        {
-                            Object.keys(cases).length > 0 ?
-                                <LineChart 
-                                    chartData={cases}
-                                    options={chartOptions}
-                                    dimensions={{width: '335px', height: '250px'}}
-                                    metric='cases'
-                                />
-                            : <div className={styles.noData}>No data available</div>
-                        }
-                    </div>
+                <div className={styles.card}>
+                    <h1 className={styles.title}>Cases</h1>
+                    {
+                        Object.keys(cases).length > 0 ?
+                            <LineChart 
+                                chartData={cases}
+                                options={chartOptions}
+                                dimensions={{width: '335px', height: '250px'}}
+                                metric='cases'
+                            />
+                        : <div className={styles.noData}>No data available</div>
+                    }
                 </div>
 
 
                 {/* Recovered Chart */}
-                <div className={styles.recovered}>
-                    <div className={styles.card}>
-                        <h1 className={styles.title}>Recovered</h1>
-                        {
-                            Object.keys(recovered).length > 0 ?
-                                <LineChart 
-                                    chartData={recovered}
-                                    options={chartOptions}
-                                    dimensions={{width: '335px', height: '250px'}}
-                                    metric='recovered'
-                                />
-                            : <div className={styles.noData}>No data available</div>
-                        }
-                    </div>
+                <div className={styles.card}>
+                    <h1 className={styles.title}>Recovered</h1>
+                    {
+                        Object.keys(recovered).length > 0 ?
+                            <LineChart 
+                                chartData={recovered}
+                                options={chartOptions}
+                                dimensions={{width: '335px', height: '250px'}}
+                                metric='recovered'
+                            />
+                        : <div className={styles.noData}>No data available</div>
+                    }
                 </div>
 
                 {/* Deaths Chart */}
-                <div className={styles.deaths}>
-                    <div className={styles.card}>
-                        <h1 className={styles.title}>Deaths</h1>
-                        {
-                            Object.keys(deaths).length > 0 ?
-                                <LineChart 
-                                    chartData={deaths}
-                                    options={chartOptions}
-                                    dimensions={{width: '335px', height: '250px'}}
-                                    metric='deaths'
-                                />
-                            : <div className={styles.noData}>No data available</div>
-                        }
-                    </div>
+                <div className={styles.card}>
+                    <h1 className={styles.title}>Deaths</h1>
+                    {
+                        Object.keys(deaths).length > 0 ?
+                            <LineChart 
+                                chartData={deaths}
+                                options={chartOptions}
+                                dimensions={{width: '335px', height: '250px'}}
+                                metric='deaths'
+                            />
+                        : <div className={styles.noData}>No data available</div>
+                    }
                 </div>
 
                 {/* Cases per Continent Chart */}
                 {
-                    <div className={styles.continents}>
-                        <div className={styles.card}>
-                            <h1 className={styles.title}>Cases per Continent</h1>
-                            <DoughnutChart
-                                dimensions={{width: '250px', height: '335px'}}
-                                chartData={{labels: chartData.labels, datasets: chartData.cases}}
-                            />
-                        </div>
+                    <div className={styles.card}>
+                        <h1 className={styles.title}>Cases per Continent</h1>
+                        <DoughnutChart
+                            dimensions={{width: '250px', height: '335px'}}
+                            chartData={{labels: chartData.labels, datasets: chartData.cases}}
+                        />
                     </div>
                 }
 
                 {/* Recovered per Continent Chart */}
                 {
-                    <div className={styles.continents}>
-                        <div className={styles.card}>
-                            <h1 className={styles.title}>Recovered per Continent</h1>
-                            {
-                                chartData.recovered && chartData.recovered.data.filter(d => d === 0).length !== 6
-                                    ? <DoughnutChart
-                                        dimensions={{width: '250px', height: '335px'}}
-                                        chartData={{labels: chartData.labels, datasets: chartData.recovered}}
-                                      />
-                                    : <div className={styles.noData}>No data available</div>
-                            }
-                        </div>
+                    <div className={styles.card}>
+                        <h1 className={styles.title}>Recovered per Continent</h1>
+                        {
+                            chartData.recovered && chartData.recovered.data.filter(d => d === 0).length !== 6
+                                ? <DoughnutChart
+                                    dimensions={{width: '250px', height: '335px'}}
+                                    chartData={{labels: chartData.labels, datasets: chartData.recovered}}
+                                    />
+                                : <div className={styles.noData}>No data available</div>
+                        }
                     </div>
                 }
 
                 {/* Deaths per Continent Chart */}
                 {
-                    <div className={styles.continents}>
-                        <div className={styles.card}>
-                            <h1 className={styles.title}>Deaths per Continent</h1>
-                            <DoughnutChart
-                                dimensions={{width: '250px', height: '335px'}}
-                                chartData={{labels: chartData.labels, datasets: chartData.deaths}}
-                            />
-                        </div>
+                    <div className={styles.card}>
+                        <h1 className={styles.title}>Deaths per Continent</h1>
+                        <DoughnutChart
+                            dimensions={{width: '250px', height: '335px'}}
+                            chartData={{labels: chartData.labels, datasets: chartData.deaths}}
+                        />
                     </div>
                 }
 
                 {/* Vaccinations Chart */}
-                <div className={styles.vaccinations}>
-                    <div className={styles.card}>
-                        <h1 className={styles.title}>Vaccinations</h1>
-                        {
-                            Object.keys(vaccinations).length > 0 ?
-                                <LineChart 
-                                    chartData={vaccinations}
-                                    options={chartOptions}
-                                    dimensions={{width: '335px', height: '250px'}}
-                                    metric='vaccinations'
-                                />
-                            : <div className={styles.noData}>No data available</div>
-                        }
-                    </div>
+                <div className={styles.card}>
+                    <h1 className={styles.title}>Vaccinations</h1>
+                    {
+                        Object.keys(vaccinations).length > 0 ?
+                            <LineChart 
+                                chartData={vaccinations}
+                                options={chartOptions}
+                                dimensions={{width: '335px', height: '250px'}}
+                                metric='vaccinations'
+                            />
+                        : <div className={styles.noData}>No data available</div>
+                    }
                 </div>
             </div>
         </div>
