@@ -30,26 +30,26 @@ ChartJS.register(
 function LineChart({ metric, chartData, dimensions, options }) {
     const [data, setData] = useState({})
 
-    const colors = {
-      cases: {
-        borderColor: '#5763e5',
-        backgroundColor: 'rgba(87, 99, 229, 0.5)'
-      },
-      deaths: {
-        borderColor: '#ff0000',
-        backgroundColor: 'rgba(255, 0, 0, 0.5)'
-      },
-      recovered: {
-        borderColor: '#49ef49',
-        backgroundColor: 'rgba(73, 239, 73, 0.5)'
-      },
-      vaccinations: {
-        borderColor: '#49ef49',
-        backgroundColor: 'rgba(73, 239, 73, 0.5)'
-      }
-    }
-
     useEffect(() => {
+      const colors = {
+        cases: {
+          borderColor: '#5763e5',
+          backgroundColor: 'rgba(87, 99, 229, 0.5)'
+        },
+        deaths: {
+          borderColor: '#ff0000',
+          backgroundColor: 'rgba(255, 0, 0, 0.5)'
+        },
+        recovered: {
+          borderColor: '#49ef49',
+          backgroundColor: 'rgba(73, 239, 73, 0.5)'
+        },
+        vaccinations: {
+          borderColor: '#49ef49',
+          backgroundColor: 'rgba(73, 239, 73, 0.5)'
+        }
+      }
+
       if (Object.keys(chartData).length > 0) {
         const keys = Object.keys(chartData[metric])
         const values = Object.values(chartData[metric])
@@ -69,7 +69,7 @@ function LineChart({ metric, chartData, dimensions, options }) {
             }]
         })
       }
-    }, [chartData, metric, colors])
+    }, [chartData, metric])
 
     const defaultOptions = {
         animation: false,
