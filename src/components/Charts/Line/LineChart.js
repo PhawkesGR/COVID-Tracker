@@ -69,7 +69,7 @@ function LineChart({ metric, chartData, dimensions, options }) {
             }]
         })
       }
-    }, [chartData, metric])
+    }, [chartData, metric, colors])
 
     const defaultOptions = {
         animation: false,
